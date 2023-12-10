@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/formLayoutId"
+    android:layout_height="match_parent"
+    android:background="#0091EA"
+    tools:context=".AddNewStaffFragment">
+
+    <EditText
+        android:id="@+id/firstName"
+        android:layout_width="match_parent"
+        android:inputType="text"
+        android:textColor="#ffffff"
+        android:textColorHint="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        android:paddingBottom="5dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_height="50dp"
+        android:hint="@string/firstNameField"
+        android:layout_marginTop="50dp"/>
+
+    <EditText
+        android:id="@+id/lastname"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:inputType="text"
+        android:textColor="#ffffff"
+        android:textColorHint="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        android:paddingBottom="5dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/lastNameField"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/firstName"/>
+
+    <EditText
+        android:id="@+id/role"
+        android:paddingBottom="5dp"
+        android:inputType="text"
+        android:textColor="#ffffff"
+        android:textColorHint="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/positionField"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/lastname"/>
+
+    <Button
+        android:id="@+id/addStaffBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/addStaffBtn"
+        android:paddingHorizontal="16dp"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/role"/>
+</RelativeLayout>
