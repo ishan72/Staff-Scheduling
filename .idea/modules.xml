@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/staffScheduler.iml" filepath="$PROJECT_DIR$/.idea/modules/staffScheduler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/staffScheduler.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/staffScheduler.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/staffScheduler.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/staffScheduler.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/staffScheduler.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/staffScheduler.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/staffScheduler.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/staffScheduler.app.unitTest.iml" />
+    </modules>
+  </component>
+</project>

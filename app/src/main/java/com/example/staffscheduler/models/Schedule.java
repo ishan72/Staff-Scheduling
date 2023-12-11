@@ -1,5 +1,7 @@
 package com.example.staffscheduler.models;
 
+import java.util.Calendar;
+
 public class Schedule {
     private int staff_id;
     private long startTime;
@@ -39,6 +41,17 @@ public class Schedule {
 
     public String getDate() {
         return date;
+    }
+
+    public String getDisplayTimeStart(){
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(startTime);
+        return c.get(Calendar.HOUR) + ":" + c.get(Calendar.MINUTE)+(c.get(Calendar.AM_PM)== Calendar.AM ?" AM":" PM");
+    }
+    public String getDisplayTimeEnd(){
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(endTime);
+        return c.get(Calendar.HOUR) + ":" + c.get(Calendar.MINUTE)+(c.get(Calendar.AM_PM)== Calendar.AM ?" AM":" PM");
     }
 
     public void setDate(String date) {

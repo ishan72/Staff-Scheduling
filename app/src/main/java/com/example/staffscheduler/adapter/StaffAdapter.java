@@ -16,9 +16,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.staffscheduler.DBHandler;
 import com.example.staffscheduler.R;
+import com.example.staffscheduler.ScheduleFragment;
+import com.example.staffscheduler.StaffListFragment;
 import com.example.staffscheduler.models.Staff;
 import com.example.staffscheduler.service.ScheduleService;
 
@@ -29,9 +33,13 @@ public class StaffAdapter extends ArrayAdapter<Staff> {
     private DBHandler dbHandler;
     private ScheduleService scheduleService;
 
+    private Calendar calendarStart = Calendar.getInstance();
+    private Calendar calendarEnd = Calendar.getInstance();
+    private Context context;
     public StaffAdapter(Context context, DBHandler dbHandler, ArrayList<Staff> Staffs) {
         super(context, 0, Staffs);
         this.dbHandler = dbHandler;
+        this.context = context;
         this.scheduleService = new ScheduleService(dbHandler);
     }
 
@@ -59,7 +67,6 @@ public class StaffAdapter extends ArrayAdapter<Staff> {
                 int position = (Integer) v.getTag();
                 Staff staff = getItem(position);
                 showDateTimePicker(staff);
-
             }
         });
         // Populate the data into the template view using the data object
@@ -72,8 +79,6 @@ public class StaffAdapter extends ArrayAdapter<Staff> {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void showDateTimePicker(Staff staff) {
-        final Calendar calendarStart = Calendar.getInstance();
-        final Calendar calendarEnd = Calendar.getInstance();
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this.getContext(),
@@ -91,9 +96,9 @@ public class StaffAdapter extends ArrayAdapter<Staff> {
 
                         // Open time picker after selecting date
                         Toast.makeText(getContext(), "Pick Start Time.", Toast.LENGTH_LONG).show();
-                        showTimePicker(staff,calendarStart);
-                        Toast.makeText(getContext(), "Pick End Time.", Toast.LENGTH_LONG).show();
-                        showTimePicker(staff, calendarEnd);
+                        showTimePicker(staff,calendarEnd, 2);
+                        showTimePicker(staff, calendarStart, 1);
+
                     }
                 },
                 calendarStart.get(Calendar.YEAR),
@@ -102,37 +107,49 @@ public class StaffAdapter extends ArrayAdapter<Staff> {
         );
 
         datePickerDialog.show();
-        scheduleService.addSchedule(staff, calendarStart, calendarEnd);
     }
 
-    private void showTimePicker(Staff staff, final Calendar calendar) {
+    private void showTimePicker(Staff staff, final Calendar calendar, int index) {
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(
                 this.getContext(),
                 new TimePickerDialog.OnTimeSetListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
                         // Handle the selected time
                         calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
                         calendar.set(Calendar.MINUTE, selectedMinute);
 
-                        // Format the selected date and time
-//                        String selectedDateTime = android.text.format.DateFormat.format("yyyy-MM-dd HH:mm", calendar).toString();
-//                        Toast.makeText(getContext(), calendar.get(Calendar.YEAR) +calendar.get(Calendar.MONTH) +calendar.get(Calendar.DATE) + " " + calendar.get(Calendar.HOUR) +calendar.get(Calendar.MINUTE) +" " , Toast.LENGTH_SHORT).show();
-
+//                        If end time is also changed then update the schedule
+                        if (index == 2){
+                            System.out.println("ishan final date changed "+calendarStart+" "+calendarEnd);
+                            if (scheduleService.addSchedule(staff, calendarStart, calendarEnd)){
+                                Toast.makeText(getContext(),"Schedule added successfully", Toast.LENGTH_SHORT).show();
+                            }
+                            refreshScheduleView();
+                        }else {
+                            Toast.makeText(getContext(), "Pick End Time.", Toast.LENGTH_LONG).show();
+                        }
                     }
                 },
-                hour,
-                minute,
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
                 true // 24-hour format
         );
 
         timePickerDialog.show();
-        System.out.println(staff.getFname() +" " + staff.getStaffId());
-
     }
 
 
+    private void refreshScheduleView(){
+        ScheduleFragment scheduleFragment = new ScheduleFragment(dbHandler);
+        FragmentTransaction transaction =  ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, scheduleFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 }
+

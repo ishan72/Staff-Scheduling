@@ -50,14 +50,6 @@ public class StaffListFragment extends Fragment {
         adapter = new StaffAdapter(getContext(), dbHandler, staffList);
         listView.setAdapter(adapter);
 
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                showDateTimePicker();
-//            }
-//        });
-
-
         populateStaffList();
 
         return view;

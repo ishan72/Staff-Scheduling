@@ -81,11 +81,13 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public List<Schedule> getAllSchedule(Long currentepoc , int uptodays) {
+
+
         ArrayList<Schedule> schedules = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         // Query to select all staff names from the staff table
-        String selectQuery = "SELECT * FROM " + TABLE_SCHEDULE;
+        String selectQuery = "SELECT * FROM " + TABLE_SCHEDULE+" order by 4";
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -98,15 +100,15 @@ public class DBHandler extends SQLiteOpenHelper {
             int columnIndexStaffId = cursor.getColumnIndex(SCHEDULE_STAFF_ID);
 
 
-//            Calendar c = Calendar.getInstance();
+            Calendar c = Calendar.getInstance();
             if (columnIndexId >= 0) {
-//                c.setTimeInMillis(cursor.getLong(columnIndexEndTime)* 1000);
-//                if(c.after(Calendar.getInstance())){
+                c.setTimeInMillis(cursor.getLong(columnIndexEndTime)* 1000);
+                if(c.after(Calendar.getInstance())){
                     Schedule schedule = new Schedule(cursor.getInt(columnIndexStaffId), cursor.getLong(columnIndexStartTime), cursor.getLong(columnIndexEndTime),cursor.getString(columnIndexDate));
                     schedules.add(schedule);
-                System.out.println("retrieve date" + schedule.getDate());
+                System.out.println("retrieve date" + schedule.getDate()+ " " + schedule.getStaff_id()+ " " +schedule.getStartTime()+ " " +schedule.getEndTime());
 
-//                }
+                }
             } else {
                 // Handle the case where the column is not found
                 // For example, log an error message

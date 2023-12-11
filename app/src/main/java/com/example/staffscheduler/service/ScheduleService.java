@@ -18,14 +18,14 @@ public class ScheduleService {
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     public boolean addSchedule(Staff staff, Calendar startTime, Calendar endTime){
-        String date = startTime.get(Calendar.YEAR ) + " " +startTime.get(Calendar.MONTH ) + " " +startTime.get(Calendar.DATE );
-        System.out.println("add date" + date);
-        Long start = Date.UTC(startTime.get(Calendar.YEAR) - 1900, startTime.get(Calendar.MONTH),
-                startTime.get(Calendar.DAY_OF_MONTH), startTime.get(Calendar.HOUR_OF_DAY),
-                startTime.get(Calendar.MINUTE), startTime.get(Calendar.SECOND));
-        Long end = Date.UTC(endTime.get(Calendar.YEAR) - 1900, endTime.get(Calendar.MONTH),
-                endTime.get(Calendar.DAY_OF_MONTH), endTime.get(Calendar.HOUR_OF_DAY),
-                endTime.get(Calendar.MINUTE), endTime.get(Calendar.SECOND));
+        String date = startTime.get(Calendar.YEAR ) + " " +startTime.get(Calendar.MONTH ) + " " +startTime.get(Calendar.DATE);
+
+        System.out.println("ishanDate" + date);
+
+        long start = startTime.getTimeInMillis();
+
+        long end = endTime.getTimeInMillis();
+
         return dbHandler.addNewSchedule(staff.getStaffId(), date, start, end);
     }
 }
